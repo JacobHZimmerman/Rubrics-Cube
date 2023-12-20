@@ -1,0 +1,649 @@
+Rubik’s Cube Program
+
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+int randonumbo();
+
+
+class face
+{public:
+
+    int color[3][3];
+
+    void displayThyself()
+    {
+        for (int row = 0 ; row < 3 ; row++)
+            for (int col = 0 ; col < 3 ; col++)
+            {
+                cout << color[row][col] << " ";
+                if (col==2) cout << endl;
+            }
+        cout << endl;
+        return;
+    }
+    
+   bool checkThyself()
+    {
+        for (int row = 0 ; row < 3 ; row++)
+        {
+            for (int col = 0 ; col < 3 ; col++)
+            {
+                if (color[row][col]!=color[0][0])
+                {
+                    
+                    return false;
+                }
+            }
+        }    
+        return true;
+    }
+    
+    
+};
+
+
+class rubikx
+{
+ public:
+ face top;
+ face left;
+ face front;
+ face right;
+ face bottom;
+ face back;
+
+    void displayThyself()
+    {
+        cout << "Top:" << endl;
+        top.displayThyself();
+        
+        cout << "Left:" << endl;
+        left.displayThyself();
+        
+        cout << "Front:" << endl;
+        front.displayThyself();
+        
+        cout << "Right:" << endl;
+        right.displayThyself();
+        
+        cout << "Bottom:" << endl;
+        bottom.displayThyself();
+        
+        cout << "Back:" << endl;
+        back.displayThyself();
+    }
+    
+    void move1(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[0][0];
+        st1=cube.top.color[1][0];
+        st2=cube.top.color[2][0];
+        cube.top.color[0][0]=cube.back.color[0][0];
+        cube.top.color[1][0]=cube.back.color[1][0];
+        cube.top.color[2][0]=cube.back.color[2][0];
+        cube.back.color[0][0]=cube.bottom.color[0][0];
+        cube.back.color[1][0]=cube.bottom.color[1][0];
+        cube.back.color[2][0]=cube.bottom.color[2][0];
+        cube.bottom.color[0][0]=cube.front.color[0][0];
+        cube.bottom.color[1][0]=cube.front.color[1][0];
+        cube.bottom.color[2][0]=cube.front.color[2][0];
+        cube.front.color[0][0]=st0;
+        cube.front.color[1][0]=st1;
+        cube.front.color[2][0]=st2; 
+        
+        cube.rotateFace(cube.left);
+        
+    }
+    
+    void move2(rubikx &cube)
+    {
+        cube.move1(cube);
+        cube.move1(cube);
+        cube.move1(cube);
+    }
+    
+    void move3(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[0][2];
+        st1=cube.top.color[1][2];
+        st2=cube.top.color[2][2];
+        cube.top.color[0][2]=cube.back.color[0][2];
+        cube.top.color[1][2]=cube.back.color[1][2];
+        cube.top.color[2][2]=cube.back.color[2][2];
+        cube.back.color[0][2]=cube.bottom.color[0][2];
+        cube.back.color[1][2]=cube.bottom.color[1][2];
+        cube.back.color[2][2]=cube.bottom.color[2][2];
+        cube.bottom.color[0][2]=cube.front.color[0][2];
+        cube.bottom.color[1][2]=cube.front.color[1][2];
+        cube.bottom.color[2][2]=cube.front.color[2][2];
+        cube.front.color[0][2]=st0;
+        cube.front.color[1][2]=st1;
+        cube.front.color[2][2]=st2; 
+        
+        cube.rotateFaceCCW(cube.right);
+        
+    }
+    
+    void move4(rubikx &cube)
+    {
+        cube.move3(cube);
+        cube.move3(cube);
+        cube.move3(cube);
+    }
+    
+    void move5(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[0][0];
+        st1=cube.top.color[0][1];
+        st2=cube.top.color[0][2];
+        cube.top.color[0][0]=cube.left.color[2][0];
+        cube.top.color[0][1]=cube.left.color[1][0];
+        cube.top.color[0][2]=cube.left.color[0][0];
+        cube.left.color[2][0]=cube.bottom.color[2][2];
+        cube.left.color[1][0]=cube.bottom.color[2][1];
+        cube.left.color[0][0]=cube.bottom.color[2][0];
+        cube.bottom.color[2][2]=cube.right.color[0][2];
+        cube.bottom.color[2][1]=cube.right.color[1][2];
+        cube.bottom.color[2][0]=cube.right.color[2][2];
+        cube.right.color[0][2]=st0;
+        cube.right.color[1][2]=st1;
+        cube.right.color[2][2]=st2; 
+        
+        cube.rotateFaceCCW(cube.back);
+        
+    }
+    
+    void move6(rubikx &cube)
+    {
+        cube.move5(cube);
+        cube.move5(cube);
+        cube.move5(cube);
+    }
+    
+    void move7(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[2][0];
+        st1=cube.top.color[2][1];
+        st2=cube.top.color[2][2];
+        cube.top.color[2][0]=cube.left.color[2][2];
+        cube.top.color[2][1]=cube.left.color[1][2];
+        cube.top.color[2][2]=cube.left.color[0][2];
+        cube.left.color[2][2]=cube.bottom.color[0][2];
+        cube.left.color[1][2]=cube.bottom.color[0][1];
+        cube.left.color[0][2]=cube.bottom.color[0][0];
+        cube.bottom.color[0][2]=cube.right.color[0][0];
+        cube.bottom.color[0][1]=cube.right.color[1][0];
+        cube.bottom.color[0][0]=cube.right.color[2][0];
+        cube.right.color[0][0]=st0;
+        cube.right.color[1][0]=st1;
+        cube.right.color[2][0]=st2; 
+        
+        cube.rotateFace(cube.front);
+        
+    }
+    
+    void move8(rubikx &cube)
+    {
+        cube.move7(cube);
+        cube.move7(cube);
+        cube.move7(cube);
+    }
+    
+    void move9(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.front.color[0][2];
+        st1=cube.front.color[0][1];
+        st2=cube.front.color[0][0];
+        cube.front.color[0][2]=cube.left.color[0][2];
+        cube.front.color[0][1]=cube.left.color[0][1];
+        cube.front.color[0][0]=cube.left.color[0][0];
+        cube.left.color[0][2]=cube.back.color[2][0];
+        cube.left.color[0][1]=cube.back.color[2][1];
+        cube.left.color[0][0]=cube.back.color[2][2];
+        cube.back.color[2][0]=cube.right.color[0][2];
+        cube.back.color[2][1]=cube.right.color[0][1];
+        cube.back.color[2][2]=cube.right.color[0][0];
+        cube.right.color[0][2]=st0;
+        cube.right.color[0][1]=st1;
+        cube.right.color[0][0]=st2; 
+        
+        cube.rotateFaceCCW(cube.top);
+        
+    }
+    
+    void move10(rubikx &cube)
+    {
+        cube.move9(cube);
+        cube.move9(cube);
+        cube.move9(cube);
+    }
+    
+    void move11(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.front.color[2][2];
+        st1=cube.front.color[2][1];
+        st2=cube.front.color[2][0];
+        cube.front.color[2][2]=cube.left.color[2][2];
+        cube.front.color[2][1]=cube.left.color[2][1];
+        cube.front.color[2][0]=cube.left.color[2][0];
+        cube.left.color[2][2]=cube.back.color[0][0];
+        cube.left.color[2][1]=cube.back.color[0][1];
+        cube.left.color[2][0]=cube.back.color[0][2];
+        cube.back.color[0][0]=cube.right.color[2][2];
+        cube.back.color[0][1]=cube.right.color[2][1];
+        cube.back.color[0][2]=cube.right.color[2][0];
+        cube.right.color[2][2]=st0;
+        cube.right.color[2][1]=st1;
+        cube.right.color[2][0]=st2; 
+        
+        cube.rotateFace(cube.bottom);
+        
+    }
+    
+    void move12(rubikx &cube)
+    {
+        cube.move11(cube);
+        cube.move11(cube);
+        cube.move11(cube);
+    }
+    
+    void move13(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[0][1];
+        st1=cube.top.color[1][1];
+        st2=cube.top.color[2][1];
+        cube.top.color[0][1]=cube.back.color[0][1];
+        cube.top.color[1][1]=cube.back.color[1][1];
+        cube.top.color[2][1]=cube.back.color[2][1];
+        cube.back.color[0][1]=cube.bottom.color[0][1];
+        cube.back.color[1][1]=cube.bottom.color[1][1];
+        cube.back.color[2][1]=cube.bottom.color[2][1];
+        cube.bottom.color[0][1]=cube.front.color[0][1];
+        cube.bottom.color[1][1]=cube.front.color[1][1];
+        cube.bottom.color[2][1]=cube.front.color[2][1];
+        cube.front.color[0][1]=st0;
+        cube.front.color[1][1]=st1;
+        cube.front.color[2][1]=st2; 
+        
+    }
+    
+    void move14(rubikx &cube)
+    {
+        cube.move13(cube);
+        cube.move13(cube);
+        cube.move13(cube);
+    }
+    
+    void move15(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.top.color[1][0];
+        st1=cube.top.color[1][1];
+        st2=cube.top.color[1][2];
+        cube.top.color[1][0]=cube.left.color[2][1];
+        cube.top.color[1][1]=cube.left.color[1][1];
+        cube.top.color[1][2]=cube.left.color[0][1];
+        cube.left.color[2][1]=cube.bottom.color[1][2];
+        cube.left.color[1][1]=cube.bottom.color[1][1];
+        cube.left.color[0][1]=cube.bottom.color[1][0];
+        cube.bottom.color[1][2]=cube.right.color[0][1];
+        cube.bottom.color[1][1]=cube.right.color[1][1];
+        cube.bottom.color[1][0]=cube.right.color[2][1];
+        cube.right.color[0][1]=st0;
+        cube.right.color[1][1]=st1;
+        cube.right.color[2][1]=st2; 
+        
+    }
+    
+    void move16(rubikx &cube)
+    {
+        cube.move15(cube);
+        cube.move15(cube);
+        cube.move15(cube);
+    }
+    
+    void move17(rubikx &cube)
+    {
+       int st0, st1, st2;
+       
+        st0=cube.front.color[1][2];
+        st1=cube.front.color[1][1];
+        st2=cube.front.color[1][0];
+        cube.front.color[1][2]=cube.left.color[1][2];
+        cube.front.color[1][1]=cube.left.color[1][1];
+        cube.front.color[1][0]=cube.left.color[1][0];
+        cube.left.color[1][2]=cube.back.color[1][0];
+        cube.left.color[1][1]=cube.back.color[1][1];
+        cube.left.color[1][0]=cube.back.color[1][2];
+        cube.back.color[1][0]=cube.right.color[1][2];
+        cube.back.color[1][1]=cube.right.color[1][1];
+        cube.back.color[1][2]=cube.right.color[1][0];
+        cube.right.color[1][2]=st0;
+        cube.right.color[1][1]=st1;
+        cube.right.color[1][0]=st2; 
+    }
+    
+    void move18(rubikx &cube)
+    {
+        cube.move17(cube);
+        cube.move17(cube);
+        cube.move17(cube);
+    }
+    
+    
+    void rotateFace(face &f)
+    {
+       int st;
+        st=f.color[0][0];
+        f.color[0][0]=f.color[2][0];
+        f.color[2][0]=f.color[2][2];
+        f.color[2][2]=f.color[0][2];
+        f.color[0][2]=st;
+        st=f.color[0][1];
+        f.color[0][1]=f.color[1][0];
+        f.color[1][0]=f.color[2][1];
+        f.color[2][1]=f.color[1][2];
+        f.color[1][2]=st;
+        
+    }
+    
+    void rotateFaceCCW(face &f)
+    {
+        rotateFace(f);
+        rotateFace(f);
+        rotateFace(f);
+        
+    }
+    
+};
+
+
+void move1(rubikx &cube);
+void move2(rubikx &cube);
+void move3(rubikx &cube);
+void move4(rubikx &cube);
+void move5(rubikx &cube);
+void move6(rubikx &cube);
+void move7(rubikx &cube);
+void move8(rubikx &cube);
+void move9(rubikx &cube);
+void move10(rubikx &cube);
+void move11(rubikx &cube);
+void move12(rubikx &cube);
+void move13(rubikx &cube);
+void move14(rubikx &cube);
+void move15(rubikx &cube);
+void move16(rubikx &cube);
+void move17(rubikx &cube);
+void move18(rubikx &cube);
+
+/////////////////////////////////////MAIN//////////////////////////////////////////
+
+int main()
+{
+    srand(time(NULL));
+    rubikx cube;
+    rubikx cube2;
+    string proc;
+    
+    int best=9, start=0, count=0;
+   
+   while(best>8)
+   {
+    proc = "";
+    count=count+1;
+    //top
+    cube.top.color[0][0] = 1;
+    cube.top.color[0][1] = 1;
+    cube.top.color[0][2] = 1;
+    cube.top.color[1][0] = 1;
+    cube.top.color[1][1] = 1;
+    cube.top.color[1][2] = 1;  
+    cube.top.color[2][0] = 1;
+    cube.top.color[2][1] = 1;
+    cube.top.color[2][2] = 1; 
+    
+    //left
+    cube.left.color[0][0] = 1;
+    cube.left.color[0][1] = 1;
+    cube.left.color[0][2] = 1;
+    cube.left.color[1][0] = 1;
+    cube.left.color[1][1] = 1;
+    cube.left.color[1][2] = 1;  
+    cube.left.color[2][0] = 1;
+    cube.left.color[2][1] = 1;
+    cube.left.color[2][2] = 1;
+    
+    //front
+    cube.front.color[0][0] = 1;
+    cube.front.color[0][1] = 1;
+    cube.front.color[0][2] = 1;
+    cube.front.color[1][0] = 1;
+    cube.front.color[1][1] = 1;
+    cube.front.color[1][2] = 1;  
+    cube.front.color[2][0] = 1;
+    cube.front.color[2][1] = 1;
+    cube.front.color[2][2] = 1;
+    
+    //right
+    cube.right.color[0][0] = 2;
+    cube.right.color[0][1] = 2;
+    cube.right.color[0][2] = 2;
+    cube.right.color[1][0] = 2;
+    cube.right.color[1][1] = 2;
+    cube.right.color[1][2] = 2;  
+    cube.right.color[2][0] = 2;
+    cube.right.color[2][1] = 2;
+    cube.right.color[2][2] = 2;
+    
+    //bottom
+    cube.bottom.color[0][0] = 2;
+    cube.bottom.color[0][1] = 2;
+    cube.bottom.color[0][2] = 2;
+    cube.bottom.color[1][0] = 2;
+    cube.bottom.color[1][1] = 2;
+    cube.bottom.color[1][2] = 2;  
+    cube.bottom.color[2][0] = 2;
+    cube.bottom.color[2][1] = 2;
+    cube.bottom.color[2][2] = 2;
+    
+    //back
+    cube.back.color[0][0] = 2;
+    cube.back.color[0][1] = 2;
+    cube.back.color[0][2] = 2;
+    cube.back.color[1][0] = 2;
+    cube.back.color[1][1] = 2;
+    cube.back.color[1][2] = 2;  
+    cube.back.color[2][0] = 2;
+    cube.back.color[2][1] = 2;
+    cube.back.color[2][2] = 2;
+    
+    cube.move1(cube);
+    cube.move4(cube);
+    cube.move15(cube);
+    cube.move15(cube);
+    cube.move10(cube);
+    cube.move10(cube);
+    cube.move14(cube);
+    cube.move7(cube);
+    
+///////////////////////////////////Trust the Process////////////////////////////////
+    
+    int i=0, total=0;
+    while(i<5 and total<=best)
+    {
+        int cm;
+        i=0;
+        cm = randonumbo();
+        total=total+1;
+        
+        if(cm==1)
+        {
+            cube.move1(cube);
+            proc = proc + "A";
+        }
+    
+        else if (cm==2)
+        {
+            cube.move2(cube);
+            proc = proc + "B";
+        }
+
+        else if (cm==3)
+        {
+            cube.move3(cube);
+            proc = proc + "C";
+        }
+    
+        else if (cm==4)
+        {
+            cube.move4(cube);
+            proc = proc + "D";
+        }
+    
+        else if (cm==5)
+        {
+            cube.move5(cube);
+            proc = proc + "E";
+        }
+    
+        else if (cm==6)
+        {
+            cube.move6(cube);
+            proc = proc + "F";
+        }
+    
+        else if (cm==7)
+        {
+            cube.move7(cube);
+            proc = proc + "G";
+        }
+        
+        else if (cm==8)
+        {
+            cube.move8(cube);
+            proc = proc + "H";
+        }
+        
+        else if (cm==9)
+        {
+            cube.move9(cube);
+            proc = proc + "I";
+        }
+        
+        else if (cm==10)
+        {
+            cube.move10(cube);
+            proc = proc + "J";
+        }
+        
+        else if (cm==11)
+        {
+            cube.move11(cube);
+            proc = proc + "K";
+        }
+        
+        else if (cm==12)
+        {
+            cube.move12(cube);
+            proc = proc + "L";
+        }
+        
+        else if (cm==13)
+        {
+            cube.move13(cube);
+            proc = proc + "M";
+        }
+    
+        else if (cm==14)
+        {
+            cube.move14(cube);
+            proc = proc + "N";
+        }
+    
+        else if (cm==15)
+        {
+            cube.move15(cube);
+            proc = proc + "O";
+        }
+    
+        else if (cm==16)
+        {
+            cube.move16(cube);
+            proc = proc + "P";
+        }
+    
+        else if (cm==17)
+        {
+            cube.move17(cube);
+            proc = proc + "Q";
+        }
+    
+        else if (cm==18)
+        {
+            cube.move18(cube);
+            proc = proc + "R";
+        }
+        
+        if(cube.top.checkThyself())
+            {i=i+1;}
+        if(cube.left.checkThyself())
+            {i=i+1;}
+        if(cube.right.checkThyself())
+            {i=i+1;} 
+        if(cube.front.checkThyself())
+            {i=i+1;}
+        if(cube.bottom.checkThyself())
+            {i=i+1;}
+    }
+    if(start==0)
+    {
+        cout << "Start";
+        cout << endl << "Total Moves: " << total << endl;
+        cout << "Best: " << best << endl << endl;
+        start=start+1;
+    }
+    if(total<best)
+    {
+        best=total; cout << "NEW BEST!";
+        cout << endl << "Total Moves: " << total << endl;
+        cout << "Best: " << best << endl << endl;
+    }
+    }
+cout << endl << "     TASK COMPLETED!!!" << endl << endl;
+cout << "Solution: " << proc << " - Count: " << count;
+ return 0;   
+}
+
+////////////////////////////randonumbo() ///////////////////////
+int randonumbo()
+    {
+        int number;
+        number=rand()% 18 + 1;
+        return number;
+    }
+    
